@@ -2,3 +2,6 @@
   display: flex;
   flex-wrap: wrap;
 }
+.app-wrapper-content{
+  width: 1300px;
+}

@@ -1,0 +1,5 @@
+.dialogs{
+    display: flex;
+    background-color: peachpuff;
+    justify-content: space-around;
+}
