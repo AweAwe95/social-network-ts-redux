@@ -2,3 +2,8 @@
     background-color: coral;
     width: 300px;
 }
+
+.activeLink{
+    font-weight: bold;
+    color: cornflowerblue;
+}
