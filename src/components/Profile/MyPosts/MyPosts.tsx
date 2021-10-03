@@ -2,6 +2,12 @@ import m from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
 
 export function MyPosts() {
+    const postsData = [
+        {id: 1, post: 'Hi', likeCounter: 6},
+        {id: 2, post: 'Bye', likeCounter: 7},
+        {id: 3, post: 'Hi', likeCounter: 10},
+    ]
+
     return <div>
         My posts
         <div>
@@ -10,9 +16,9 @@ export function MyPosts() {
             <button>Remove</button>
         </div>
         <div className={m.posts}>
-            <Post message={'Hi'} likeCounter={6}/>
-            <Post message={'Bye'} likeCounter={7}/>
-            <Post message={'How old are you?'} likeCounter={10}/>
+            <Post post={postsData[0].post} likeCounter={postsData[0].likeCounter}/>
+            <Post post={postsData[1].post} likeCounter={postsData[1].likeCounter}/>
+            <Post post={postsData[2].post} likeCounter={postsData[2].likeCounter}/>
         </div>
     </div>;
 }
