@@ -1,13 +1,12 @@
 import m from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
+import {PostType} from "../../../index";
 
-export function MyPosts() {
-    const postsData = [
-        {id: 1, post: 'Hi', likeCounter: 6},
-        {id: 2, post: 'Bye', likeCounter: 7},
-        {id: 3, post: 'Hi', likeCounter: 10},
-    ]
+type MyPostsPropsType = {
+    posts: PostType[]
+}
 
+export function MyPosts(props: MyPostsPropsType) {
     return <div>
         My posts
         <div>
@@ -16,7 +15,7 @@ export function MyPosts() {
             <button>Remove</button>
         </div>
         <div className={m.posts}>
-            {postsData.map(p => <Post post={p.post} likeCounter={p.likeCounter}/>)}
+            {props.posts.map(p => <Post post={p.post} likeCounter={p.likeCounter}/>)}
         </div>
     </div>;
 }
