@@ -20,16 +20,10 @@ export function Dialogs() {
     return(
             <div className={d.dialogs}>
                 <div className={d.dialogsItems}>
-                    <Dialog name={dialogsData[0].name} id={dialogsData[0].id}/>
-                    <Dialog name={dialogsData[1].name} id={dialogsData[1].id}/>
-                    <Dialog name={dialogsData[2].name} id={dialogsData[2].id}/>
-                    <Dialog name={dialogsData[0].name} id={dialogsData[3].id}/>
+                    {dialogsData.map(d => <Dialog name={d.name} id={d.id}/>)}
                 </div>
                 <div className={d.messages}>
-                    <Message message={messagesData[0].message}/>
-                    <Message message={messagesData[0].message}/>
-                    <Message message={messagesData[0].message}/>
-                    <Message message={messagesData[0].message}/>
+                    {messagesData.map(m => <Message message={m.message}/>)}
                 </div>
             </div>
     )

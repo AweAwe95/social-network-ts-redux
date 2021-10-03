@@ -16,9 +16,7 @@ export function MyPosts() {
             <button>Remove</button>
         </div>
         <div className={m.posts}>
-            <Post post={postsData[0].post} likeCounter={postsData[0].likeCounter}/>
-            <Post post={postsData[1].post} likeCounter={postsData[1].likeCounter}/>
-            <Post post={postsData[2].post} likeCounter={postsData[2].likeCounter}/>
+            {postsData.map(p => <Post post={p.post} likeCounter={p.likeCounter}/>)}
         </div>
     </div>;
 }
