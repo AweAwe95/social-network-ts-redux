@@ -47,3 +47,7 @@ export const state: StateType = {
         ]
     }
 }
+
+export const addPost = (newPostText: string) => {
+    state.postsPageData.postsData.push({id: 4, post: newPostText, likeCounter: 0})
+}
