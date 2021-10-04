@@ -1,3 +1,5 @@
+import {rerenderEntireTree} from "../index";
+
 export type StateType = {
     dialogsPageData: DialogsPageDataType
     postsPageData: PostsPageDataType
@@ -7,7 +9,8 @@ export type DialogsPageDataType = {
     messagesData: MessageType[]
 }
 export type PostsPageDataType = {
-    postsData: PostType[]
+    postsData: PostType[],
+    newPostText: string
 }
 
 export type DialogType = {
@@ -44,10 +47,16 @@ export const state: StateType = {
             {id: 1, post: 'Hi', likeCounter: 6},
             {id: 2, post: 'Bye', likeCounter: 7},
             {id: 3, post: 'Hi', likeCounter: 10},
-        ]
+        ],
+        newPostText: ""
     }
 }
 
-export const addPost = (newPostText: string) => {
-    state.postsPageData.postsData.push({id: 4, post: newPostText, likeCounter: 0})
+export const addPost = () => {
+    state.postsPageData.postsData.push({id: 4, post: state.postsPageData.newPostText, likeCounter: 0})
+    rerenderEntireTree()
+}
+export const changeNewPostText = (newPostText: string) => {
+    state.postsPageData.newPostText = newPostText
+    rerenderEntireTree()
 }
