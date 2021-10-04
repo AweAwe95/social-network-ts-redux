@@ -54,9 +54,9 @@ export const state: StateType = {
 
 export const addPost = () => {
     state.postsPageData.postsData.push({id: 4, post: state.postsPageData.newPostText, likeCounter: 0})
-    rerenderEntireTree()
+    rerenderEntireTree(state)
 }
 export const changeNewPostText = (newPostText: string) => {
     state.postsPageData.newPostText = newPostText
-    rerenderEntireTree()
+    rerenderEntireTree(state)
 }
