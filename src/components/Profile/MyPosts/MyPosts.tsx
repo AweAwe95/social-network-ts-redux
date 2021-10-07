@@ -1,7 +1,6 @@
-import {changeNewPostText, PostType} from "../../../redux/state";
+import {PostType} from "../../../redux/state";
 import m from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
-import {useState} from "react";
 
 type MyPostsPropsType = {
     posts: PostType[]
@@ -12,11 +11,11 @@ type MyPostsPropsType = {
 
 export function MyPosts(props: MyPostsPropsType) {
     const textAreaHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        changeNewPostText(e.currentTarget.value)
+        props.changeNewPostText(e.currentTarget.value)
     }
     const addPost = () => {
         props.addPost()
-        changeNewPostText('')
+        props.changeNewPostText('')
     }
 
     return <div>
