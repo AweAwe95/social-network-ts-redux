@@ -1,13 +1,20 @@
 import {rerenderEntireTree} from "../index";
 
 
-export type ActionTypes = AddPostAT | ChangeNewPostTextAT
+export type ActionTypes = AddPostAT | ChangeNewPostTextAT | AddMessageAT | ChangeNewMessageTextAT
 type AddPostAT = {
     type: "ADD-POST"
 }
 type ChangeNewPostTextAT = {
     type: 'CHANGE-NEW-POST-TEXT',
     newPostText: string
+}
+type AddMessageAT = {
+    type: "ADD-MESSAGE"
+}
+type ChangeNewMessageTextAT = {
+    type: 'CHANGE-NEW-MESSAGE-TEXT',
+    newMessageText: string
 }
 
 export type StoreType = {
@@ -22,6 +29,7 @@ export type StateType = {
 export type DialogsPageDataType = {
     dialogsData: DialogType[]
     messagesData: MessageType[]
+    newMessageText: string
 }
 export type PostsPageDataType = {
     postsData: PostType[],
@@ -56,7 +64,8 @@ export let store: StoreType = {
                 {id: 2, message: 'How are you'},
                 {id: 3, message: 'Really'},
                 {id: 4, message: 'Bye'},
-            ]
+            ],
+            newMessageText: ""
         },
         postsPageData: {
             postsData: [
@@ -84,8 +93,18 @@ export let store: StoreType = {
                 this._state.postsPageData.newPostText = action.newPostText
                 rerenderEntireTree(this.getState())
                 break
+            case "ADD-MESSAGE":
+                this._state.dialogsPageData.messagesData.push({
+                    id: 4,
+                    message: this._state.dialogsPageData.newMessageText,
+                })
+                rerenderEntireTree(this.getState())
+                break
+            case 'CHANGE-NEW-MESSAGE-TEXT':
+                this._state.dialogsPageData.newMessageText = action.newMessageText
+                rerenderEntireTree(this.getState())
+                break
         }
-
     }
 }
 
@@ -98,5 +117,16 @@ export const changeNewPostTextAC = (newPostText: string): ChangeNewPostTextAT =>
     return {
         type: 'CHANGE-NEW-POST-TEXT',
         newPostText
+    }
+}
+export const addMessageAC = (): AddMessageAT => {
+    return {
+        type: "ADD-MESSAGE"
+    }
+}
+export const changeNewMessageTextAC = (newMessageText: string): ChangeNewMessageTextAT => {
+    return {
+        type: 'CHANGE-NEW-MESSAGE-TEXT',
+        newMessageText
     }
 }
