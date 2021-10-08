@@ -1,11 +1,19 @@
 import {rerenderEntireTree} from "../index";
 
 
+export type ActionTypes = AddPostAT | ChangeNewPostTextAT
+type AddPostAT = {
+    type: "ADD-POST"
+}
+type ChangeNewPostTextAT = {
+    type: 'CHANGE-NEW-POST-TEXT',
+    newPostText: string
+}
+
 export type StoreType = {
     _state: StateType
     getState: () => StateType
-    addPost: () => void
-    changeNewPostText: (newPostText: string) => void
+    dispatch: (action: ActionTypes) => void
 }
 export type StateType = {
     dialogsPageData: DialogsPageDataType
@@ -62,12 +70,33 @@ export let store: StoreType = {
     getState() {
         return this._state
     },
-    addPost() {
-        this._state.postsPageData.postsData.push({id: 4, post: this._state.postsPageData.newPostText, likeCounter: 0})
-        rerenderEntireTree(this.getState())
-    },
-    changeNewPostText(newPostText: string) {
-        this._state.postsPageData.newPostText = newPostText
-        rerenderEntireTree(this.getState())
+    dispatch(action: ActionTypes) {
+        switch (action.type) {
+            case "ADD-POST":
+                this._state.postsPageData.postsData.push({
+                    id: 4,
+                    post: this._state.postsPageData.newPostText,
+                    likeCounter: 0
+                })
+                rerenderEntireTree(this.getState())
+                break
+            case 'CHANGE-NEW-POST-TEXT':
+                this._state.postsPageData.newPostText = action.newPostText
+                rerenderEntireTree(this.getState())
+                break
+        }
+
+    }
+}
+
+export const addPostAC = (): AddPostAT => {
+    return {
+        type: "ADD-POST"
+    }
+}
+export const changeNewPostTextAC = (newPostText: string): ChangeNewPostTextAT => {
+    return {
+        type: 'CHANGE-NEW-POST-TEXT',
+        newPostText
     }
 }
