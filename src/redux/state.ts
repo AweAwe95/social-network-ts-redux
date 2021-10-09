@@ -1,7 +1,11 @@
 import {rerenderEntireTree} from "../index";
+import {profileReducer} from "./profile-reducer";
+import {dialogsReducer} from "./dialogs-reducer";
 
 
-export type ActionTypes = AddPostAT | ChangeNewPostTextAT | AddMessageAT | ChangeNewMessageTextAT
+export type ActionTypes = DialogsPageAT | ProfilePageAT
+export type ProfilePageAT = AddPostAT | ChangeNewPostTextAT
+export type DialogsPageAT = AddMessageAT | ChangeNewMessageTextAT
 type AddPostAT = {
     type: "ADD-POST"
 }
@@ -80,31 +84,9 @@ export let store: StoreType = {
         return this._state
     },
     dispatch(action: ActionTypes) {
-        switch (action.type) {
-            case "ADD-POST":
-                this._state.postsPageData.postsData.push({
-                    id: 4,
-                    post: this._state.postsPageData.newPostText,
-                    likeCounter: 0
-                })
-                rerenderEntireTree(this.getState())
-                break
-            case 'CHANGE-NEW-POST-TEXT':
-                this._state.postsPageData.newPostText = action.newPostText
-                rerenderEntireTree(this.getState())
-                break
-            case "ADD-MESSAGE":
-                this._state.dialogsPageData.messagesData.push({
-                    id: 4,
-                    message: this._state.dialogsPageData.newMessageText,
-                })
-                rerenderEntireTree(this.getState())
-                break
-            case 'CHANGE-NEW-MESSAGE-TEXT':
-                this._state.dialogsPageData.newMessageText = action.newMessageText
-                rerenderEntireTree(this.getState())
-                break
-        }
+        this._state.postsPageData = profileReducer(this._state.postsPageData, action)
+        this._state.dialogsPageData = dialogsReducer(this._state.dialogsPageData, action)
+        rerenderEntireTree(this._state)
     }
 }
 
