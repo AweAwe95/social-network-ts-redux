@@ -1,15 +1,12 @@
 import {Dialog} from "./Dialog/Dialog";
 import {Message} from "./Message/Message";
 import d from './Dialogs.module.css'
-import {
-    ActionTypes, addMessageAC,
-    changeNewMessageTextAC,
-    DialogsPageDataType
-} from "../../redux/state";
+import {addMessageAC, changeNewMessageTextAC, DialogsPageAT, DialogsPageDataType} from "../../redux/dialogs-reducer";
+
 
 type DialogsPropsType = {
     dialogsPageData: DialogsPageDataType
-    dispatch: (action: ActionTypes) => void
+    dispatch: (action: DialogsPageAT) => void
 }
 
 export function Dialogs(props: DialogsPropsType) {

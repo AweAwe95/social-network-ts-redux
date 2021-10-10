@@ -1,11 +1,11 @@
-import {ActionTypes, addPostAC, changeNewPostTextAC, PostType} from "../../../redux/state";
 import m from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
+import {addPostAC, changeNewPostTextAC, PostType, ProfilePageAT} from "../../../redux/profile-reducer";
 
 type MyPostsPropsType = {
     posts: PostType[]
     newPostText: string
-    dispatch: (action: ActionTypes) => void
+    dispatch: (action: ProfilePageAT) => void
 }
 
 export function MyPosts(props: MyPostsPropsType) {

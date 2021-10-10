@@ -1,11 +1,11 @@
 import p from './Profile.module.css'
 import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {ActionTypes, PostsPageDataType} from "../../redux/state";
+import {PostsPageDataType, ProfilePageAT} from '../../redux/profile-reducer';
 
 type ProfilePropsType = {
     postsPageData: PostsPageDataType
-    dispatch: (action: ActionTypes) => void
+    dispatch: (action: ProfilePageAT) => void
 }
 
 export function Profile(props: ProfilePropsType) {
