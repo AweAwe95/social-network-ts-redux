@@ -1,7 +1,7 @@
 import p from './Profile.module.css'
-import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {PostsPageDataType, ProfilePageAT} from '../../redux/profile-reducer';
+import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 
 type ProfilePropsType = {
     postsPageData: PostsPageDataType
@@ -12,7 +12,7 @@ export function Profile(props: ProfilePropsType) {
     return (
         <div className={p.content}>
             <ProfileInfo/>
-            <MyPosts posts={props.postsPageData.postsData} newPostText={props.postsPageData.newPostText}
+            <MyPostsContainer posts={props.postsPageData.postsData} newPostText={props.postsPageData.newPostText}
                      dispatch={props.dispatch}/>
         </div>
     )

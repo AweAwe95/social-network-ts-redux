@@ -1,20 +1,20 @@
 import m from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
-import {addPostAC, changeNewPostTextAC, PostType, ProfilePageAT} from "../../../redux/profile-reducer";
+import {PostType} from "../../../redux/profile-reducer";
 
 type MyPostsPropsType = {
     posts: PostType[]
     newPostText: string
-    dispatch: (action: ProfilePageAT) => void
+    addPost: () => void
+    textAreaHandler: (newText: string) => void
 }
 
 export function MyPosts(props: MyPostsPropsType) {
     const textAreaHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(changeNewPostTextAC(e.currentTarget.value))
+        props.textAreaHandler(e.currentTarget.value)
     }
     const addPost = () => {
-        props.dispatch(addPostAC())
-        props.dispatch(changeNewPostTextAC(''))
+        props.addPost()
     }
 
     return <div>
