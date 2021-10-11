@@ -41,14 +41,9 @@ let initState: DialogsPageDataType = {
 export const dialogsReducer = (state: DialogsPageDataType = initState, action: DialogsPageAT): DialogsPageDataType => {
     switch (action.type) {
         case "ADD-MESSAGE":
-            state.messagesData.push({
-                id: 4,
-                message: state.newMessageText,
-            })
-            return {...state}
+            return {...state, messagesData: [...state.messagesData, { id: 4, message: state.newMessageText,} ]}
         case 'CHANGE-NEW-MESSAGE-TEXT':
-            state.newMessageText = action.newMessageText
-            return {...state}
+            return {...state, newMessageText: action.newMessageText}
         default:
             return state
     }

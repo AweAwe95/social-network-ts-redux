@@ -29,15 +29,9 @@ let initState: PostsPageDataType = {
 export const profileReducer = (state: PostsPageDataType = initState, action: ProfilePageAT): PostsPageDataType => {
     switch (action.type) {
         case "ADD-POST":
-            state.postsData.push({
-                id: 4,
-                post: state.newPostText,
-                likeCounter: 0
-            })
-            return {...state}
+            return {...state, postsData: [...state.postsData,{ id: 4, post: state.newPostText, likeCounter: 0}]}
         case 'CHANGE-NEW-POST-TEXT':
-            state.newPostText = action.newPostText
-            return {...state}
+            return {...state, newPostText: action.newPostText}
         default:
             return state
     }
