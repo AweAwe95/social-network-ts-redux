@@ -45,10 +45,10 @@ export const dialogsReducer = (state: DialogsPageDataType = initState, action: D
                 id: 4,
                 message: state.newMessageText,
             })
-            return state
+            return {...state}
         case 'CHANGE-NEW-MESSAGE-TEXT':
             state.newMessageText = action.newMessageText
-            return state
+            return {...state}
         default:
             return state
     }

@@ -34,10 +34,10 @@ export const profileReducer = (state: PostsPageDataType = initState, action: Pro
                 post: state.newPostText,
                 likeCounter: 0
             })
-            return state
+            return {...state}
         case 'CHANGE-NEW-POST-TEXT':
             state.newPostText = action.newPostText
-            return state
+            return {...state}
         default:
             return state
     }

@@ -1,17 +1,16 @@
 import m from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
-import {PostType} from "../../../redux/profile-reducer";
+import {PostsPageDataType} from "../../../redux/profile-reducer";
 
 type MyPostsPropsType = {
-    posts: PostType[]
-    newPostText: string
+    postsPageData: PostsPageDataType
     addPost: () => void
-    textAreaHandler: (newText: string) => void
+    changeNewPostText: (newPost: string) => void
 }
 
 export function MyPosts(props: MyPostsPropsType) {
     const textAreaHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        props.textAreaHandler(e.currentTarget.value)
+        props.changeNewPostText(e.currentTarget.value)
     }
     const addPost = () => {
         props.addPost()
@@ -20,11 +19,11 @@ export function MyPosts(props: MyPostsPropsType) {
     return <div>
         My posts
         <div>
-            <textarea onChange={textAreaHandler} value={props.newPostText}></textarea>
+            <textarea onChange={textAreaHandler} value={props.postsPageData.newPostText}></textarea>
             <button onClick={addPost}>Add post</button>
         </div>
         <div className={m.posts}>
-            {props.posts.map(p => <Post post={p.post} likeCounter={p.likeCounter}/>)}
+            {props.postsPageData.postsData.map(p => <Post post={p.post} likeCounter={p.likeCounter}/>)}
         </div>
     </div>;
 }

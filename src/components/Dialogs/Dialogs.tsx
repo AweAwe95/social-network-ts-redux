@@ -1,21 +1,16 @@
 import {Dialog} from "./Dialog/Dialog";
 import {Message} from "./Message/Message";
 import d from './Dialogs.module.css'
-import {addMessageAC, changeNewMessageTextAC, DialogsPageAT, DialogsPageDataType} from "../../redux/dialogs-reducer";
+import {DialogsPropsType} from "./DialogsContainer";
 
-
-type DialogsPropsType = {
-    dialogsPageData: DialogsPageDataType
-    dispatch: (action: DialogsPageAT) => void
-}
 
 export function Dialogs(props: DialogsPropsType) {
     const textAreaHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(changeNewMessageTextAC(e.currentTarget.value))
+        props.changeNewMessageText(e.currentTarget.value)
     }
     const addMessage = () => {
-        props.dispatch(addMessageAC())
-        props.dispatch(changeNewMessageTextAC(''))
+        props.addMessage()
+        props.changeNewMessageText('')
     }
     return (
         <div className={d.dialogs}>
