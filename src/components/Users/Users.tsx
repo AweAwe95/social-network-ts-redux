@@ -1,65 +1,70 @@
-import s from './users.module.css'
-import { FC } from "react";
-import {UsersPropsType} from "./UsersContainer";
+import React from "react";
+import q from './Users.module.css'
+import axios from "axios";
 
+type UsersResponseType = {
+    items: UserType[]
+}
 
-export const Users: FC<UsersPropsType> = ({users, follow, setUsers, unFollow,}) => {
-    if (users.length === 0) {
-        setUsers([
-            {
-                id: 1,
-                imgUrl: 'https://ih1.redbubble.net/image.1071702879.9162/poster,504x498,f8f8f8-pad,600x600,f8f8f8.u1.jpg',
-                follow: true,
-                name: 'Valentine',
-                location: {city: 'Minsk', country: 'Belarus'},
-                status: 'Looking for a job '
-            },
-            {
-                id: 2,
-                imgUrl: 'https://ih1.redbubble.net/image.1071702879.9162/poster,504x498,f8f8f8-pad,600x600,f8f8f8.u1.jpg',
-                follow: false,
-                name: 'Ivan',
-                location: {city: 'Moscow', country: 'Russia'},
-                status: 'Looking for a job '
-            },
-            {
-                id: 3,
-                imgUrl: 'https://ih1.redbubble.net/image.1071702879.9162/poster,504x498,f8f8f8-pad,600x600,f8f8f8.u1.jpg',
-                follow: true,
-                name: 'Kummer',
-                location: {city: 'Chemnitz ', country: 'Germany'},
-                status: 'Looking for a job '
-            },
-            {
-                id: 4,
-                imgUrl: 'https://ih1.redbubble.net/image.1071702879.9162/poster,504x498,f8f8f8-pad,600x600,f8f8f8.u1.jpg',
-                follow: true,
-                name: 'Natalia',
-                location: {city: 'Minsk', country: 'Belarus'},
-                status: 'Looking for a job '
-            },
-        ])
+type UserType = {
+    id: number,
+    name: string,
+    status: string,
+    photos: PhotosType,
+    followed: boolean
+}
+type PhotosType = {
+    small: string,
+    large: string
+}
+
+type UsersPageType = {
+    users: UserType[]
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+    setUsers: (users: UserType[]) => void
+}
+
+export function Users(props: UsersPageType) {
+    if (props.users.length === 0) {
+
+        axios.get<UsersResponseType>("https://social-network.samuraijs.com/api/1.0/users")
+            .then(response => {
+                props.setUsers(response.data.items)
+            })
     }
 
-    const usersMap = users.map(user => {
-        return (
-            <div key={user.id}>
-                <img className={s.avatar} src={user.imgUrl} alt='photo'/>
-                <div>
-                    {user.follow
-                        ? <button onClick={() => follow(user.id)}>Follow</button>
-                        : <button onClick={() => unFollow(user.id)}>Unfollow</button>}
-                </div>
-                <div>{user.name}</div>
-                <div>{user.status}</div>
-                <div>{user.location.country}</div>
-                <div>{user.location.city}</div>
-            </div>
-        )
-    })
     return (
         <div>
-            {usersMap}
+            {props.users.map(u => <div>
+                <span>
+                    <div className={q.item}>
+                        <img src={u.photos.small != null ? u.photos.small : "https://static.wikia.nocookie.net/drebedenboi/images/5/5c/%D0%9F%D0%B0%D1%85%D0%BE%D0%BC2.jpg/revision/latest?cb=20180314173639&path-prefix=ru"} alt=""/>
+                    </div>
+                    <div>
+                        {u.followed
+                            ? <button onClick={() => {
+
+                                props.unfollow(u.id)
+                            }}>Follow</button>
+                            : <button onClick={() => {
+                                props.follow(u.id)
+                            }}>Unfollow</button>}
+                    </div>
+                </span>
+                    <span>
+                    <span>
+                        <div>{u.name}</div>
+                        <div>{u.status}</div>
+                    </span>
+                    <span>
+                        <div>{"u.location.country"}</div>
+                        <div>{"u.location.city"}</div>
+                    </span>
+                </span>
+                </div>
+            )
+            }
         </div>
-    );
-};
+    )
+}
