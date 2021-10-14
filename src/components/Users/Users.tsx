@@ -25,20 +25,19 @@ type UsersPageType = {
     setUsers: (users: UserType[]) => void
 }
 
-export function Users(props: UsersPageType) {
-    const getUsers = () => {
-        if (props.users.length === 0) {
+export class Users extends React.Component<UsersPageType> {
 
-            axios.get<UsersResponseType>("https://social-network.samuraijs.com/api/1.0/users")
-                .then(response => {
-                    props.setUsers(response.data.items)
-                })
-        }
+    componentDidMount() {
+        axios.get<UsersResponseType>("https://social-network.samuraijs.com/api/1.0/users")
+            .then(response => {
+                this.props.setUsers(response.data.items)
+            })
     }
-    return (
-        <div>
-            <button onClick={getUsers}>Get Users</button>
-            {props.users.map(u => <div>
+
+    render() {
+        return (
+            <div>
+                {this.props.users.map(u => <div>
                 <span>
                     <div className={q.item}>
                         <img
@@ -49,14 +48,14 @@ export function Users(props: UsersPageType) {
                         {u.followed
                             ? <button onClick={() => {
 
-                                props.unfollow(u.id)
+                                this.props.unfollow(u.id)
                             }}>Follow</button>
                             : <button onClick={() => {
-                                props.follow(u.id)
+                                this.props.follow(u.id)
                             }}>Unfollow</button>}
                     </div>
                 </span>
-                    <span>
+                        <span>
                     <span>
                         <div>{u.name}</div>
                         <div>{u.status}</div>
@@ -66,9 +65,10 @@ export function Users(props: UsersPageType) {
                         <div>{"u.location.city"}</div>
                     </span>
                 </span>
-                </div>
-            )
-            }
-        </div>
-    )
+                    </div>
+                )
+                }
+            </div>
+        )
+    }
 }
