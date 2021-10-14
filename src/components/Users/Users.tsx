@@ -26,20 +26,24 @@ type UsersPageType = {
 }
 
 export function Users(props: UsersPageType) {
-    if (props.users.length === 0) {
+    const getUsers = () => {
+        if (props.users.length === 0) {
 
-        axios.get<UsersResponseType>("https://social-network.samuraijs.com/api/1.0/users")
-            .then(response => {
-                props.setUsers(response.data.items)
-            })
+            axios.get<UsersResponseType>("https://social-network.samuraijs.com/api/1.0/users")
+                .then(response => {
+                    props.setUsers(response.data.items)
+                })
+        }
     }
-
     return (
         <div>
+            <button onClick={getUsers}>Get Users</button>
             {props.users.map(u => <div>
                 <span>
                     <div className={q.item}>
-                        <img src={u.photos.small != null ? u.photos.small : "https://static.wikia.nocookie.net/drebedenboi/images/5/5c/%D0%9F%D0%B0%D1%85%D0%BE%D0%BC2.jpg/revision/latest?cb=20180314173639&path-prefix=ru"} alt=""/>
+                        <img
+                            src={u.photos.small != null ? u.photos.small : "https://static.wikia.nocookie.net/drebedenboi/images/5/5c/%D0%9F%D0%B0%D1%85%D0%BE%D0%BC2.jpg/revision/latest?cb=20180314173639&path-prefix=ru"}
+                            alt=""/>
                     </div>
                     <div>
                         {u.followed
