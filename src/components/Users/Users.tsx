@@ -4,8 +4,8 @@ import axios from "axios";
 
 type UsersResponseType = {
     items: UserType[]
+    totalCount: number
 }
-
 type UserType = {
     id: number,
     name: string,
@@ -17,26 +17,54 @@ type PhotosType = {
     small: string,
     large: string
 }
-
 type UsersPageType = {
     users: UserType[]
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     setUsers: (users: UserType[]) => void
+    setCurrentPage: (currentPage: number) => void
+    setTotalUsersCount: (totalCount: number) => void
 }
 
 export class Users extends React.Component<UsersPageType> {
 
     componentDidMount() {
-        axios.get<UsersResponseType>("https://social-network.samuraijs.com/api/1.0/users")
+        axios.get<UsersResponseType>(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+            .then(response => {
+                this.props.setUsers(response.data.items)
+                this.props.setTotalUsersCount(response.data.totalCount)
+            })
+    }
+
+    onPageChanged = (pageNumber: number) => {
+        this.props.setCurrentPage(pageNumber)
+        axios.get<UsersResponseType>(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
             .then(response => {
                 this.props.setUsers(response.data.items)
             })
     }
 
     render() {
+
+        let pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize)
+        let pages: number[] = []
+        for (let i = 1; i <= pagesCount; i++) {
+            pages.push(i)
+        }
+
         return (
             <div>
+                <div>
+                    {pages.map(page => {
+                        const onClickHandler = () => {
+                            this.onPageChanged(page)
+                        }
+                        return <span onClick={onClickHandler} className={(page === this.props.currentPage) ? q.selectedPage : ""}>{page} </span>
+                    })}
+                </div>
                 {this.props.users.map(u => <div>
                 <span>
                     <div className={q.item}>

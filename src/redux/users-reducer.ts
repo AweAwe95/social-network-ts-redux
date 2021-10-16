@@ -12,12 +12,41 @@ type PhotosType = {
 
 export type UsersPageType = {
     users: UserType[]
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
 }
 let initialState: UsersPageType = {
-    users: []
+    users: [],
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 1
 }
 
-export const usersReducer = (state: UsersPageType = initialState, action: UsersAT) => {
+type UsersAT = FollowAT | UnfollowAT | SetUsersAT | SetCurrentPageAT | SetTotalCountAT
+type FollowAT = {
+    type: 'FOLLOW'
+    userId: number
+}
+type UnfollowAT = {
+    type: 'UNFOLLOW'
+    userId: number
+}
+type SetUsersAT = {
+    type: 'SET-USERS'
+    users: UserType[]
+}
+type SetCurrentPageAT = {
+    type: "SET-CURRENT-PAGE"
+    currentPage: number
+}
+type SetTotalCountAT = {
+    type: "SET-TOTAL-COUNT",
+    totalCount: number
+}
+
+
+export const usersReducer = (state: UsersPageType = initialState, action: UsersAT): UsersPageType => {
     switch (action.type) {
         case 'FOLLOW': {
             return {
@@ -45,24 +74,15 @@ export const usersReducer = (state: UsersPageType = initialState, action: UsersA
             }
         }
         case 'SET-USERS': {
-            return {...state, users: [...state.users, ...action.users]}
+            return {...state, users: action.users}
         }
+        case 'SET-CURRENT-PAGE':
+            return {...state, currentPage: action.currentPage}
+        case "SET-TOTAL-COUNT":
+            return {...state, totalUsersCount: action.totalCount}
         default:
             return state
     }
-}
-type UsersAT = FollowAT | UnfollowAT | SetUsersAT
-type FollowAT = {
-    type: 'FOLLOW'
-    userId: number
-}
-type UnfollowAT = {
-    type: 'UNFOLLOW'
-    userId: number
-}
-type SetUsersAT = {
-    type: 'SET-USERS'
-    users: UserType[]
 }
 
 export const followAC = (userId: number): FollowAT => {
@@ -73,4 +93,16 @@ export const unfollowAC = (userId: number): UnfollowAT => {
 }
 export const setUsersAC = (users: UserType[]): SetUsersAT => {
     return {type: 'SET-USERS', users}
+}
+export const setCurrentPageAC = (currentPage: number): SetCurrentPageAT => {
+    return {
+        type: "SET-CURRENT-PAGE",
+        currentPage
+    }
+}
+export const setTotalCountAC = (totalCount: number): SetTotalCountAT => {
+    return {
+        type: "SET-TOTAL-COUNT",
+        totalCount
+    }
 }
