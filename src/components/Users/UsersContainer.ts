@@ -1,5 +1,13 @@
 import {connect} from "react-redux";
-import {followAC, setCurrentPageAC, setTotalCountAC, setUsersAC, unfollowAC, UserType} from "../../redux/users-reducer";
+import {
+    followAC,
+    setCurrentPageAC,
+    setIsFetchingAC,
+    setTotalCountAC,
+    setUsersAC,
+    unfollowAC,
+    UserType
+} from "../../redux/users-reducer";
 import {DispatchType, RootStateType} from "../../redux/redux-store";
 import {UsersAPIComponent} from "./UsersAPIComponent";
 
@@ -9,7 +17,8 @@ let mapStateToProps = (state: RootStateType) => {
         users: state.usersPageData.users,
         pageSize: state.usersPageData.pageSize,
         totalUsersCount: state.usersPageData.totalUsersCount,
-        currentPage: state.usersPageData.currentPage
+        currentPage: state.usersPageData.currentPage,
+        isFetching: state.usersPageData.isFetching
     }
 }
 
@@ -29,6 +38,9 @@ let mapDispatchToProps = (dispatch: DispatchType) => {
         },
         setTotalUsersCount: (totalCount: number) => {
             dispatch(setTotalCountAC(totalCount))
+        },
+        setIsFetching: (isFetching: boolean) => {
+            dispatch(setIsFetchingAC(isFetching))
         }
 
     }
