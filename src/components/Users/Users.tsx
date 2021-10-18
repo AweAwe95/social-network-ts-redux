@@ -1,4 +1,5 @@
 import React from "react";
+import {NavLink} from "react-router-dom";
 import q from './Users.module.css'
 
 type UsersPageType = {
@@ -44,9 +45,11 @@ export function Users(props: UsersPageType) {
             {props.users.map(u => <div>
                 <span>
                     <div className={q.item}>
+                        <NavLink to={'profile/' + u.id}>
                         <img
                             src={u.photos.small != null ? u.photos.small : "https://static.wikia.nocookie.net/drebedenboi/images/5/5c/%D0%9F%D0%B0%D1%85%D0%BE%D0%BC2.jpg/revision/latest?cb=20180314173639&path-prefix=ru"}
                             alt=""/>
+                        </NavLink>
                     </div>
                     <div>
                         {u.followed
