@@ -2,8 +2,15 @@
     background-color: aquamarine;
     width: 1600px;
     height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .siteLogo{
     width: 50px;
+}
+
+.loginBlock{
+
 }
