@@ -10,12 +10,14 @@ type UsersAPIComponentType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: number[]
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     setUsers: (users: UserType[]) => void
     setCurrentPage: (currentPage: number) => void
     setTotalUsersCount: (totalCount: number) => void
     setIsFetching: (isFetching: boolean) => void
+    setFollowingInProgress: (isFetching: boolean, userId: number) => void
 }
 
 export class UsersAPIComponent extends React.Component<UsersAPIComponentType> {
@@ -50,7 +52,11 @@ export class UsersAPIComponent extends React.Component<UsersAPIComponentType> {
                          currentPage={this.props.currentPage}
                          follow={this.props.follow}
                          unfollow={this.props.unfollow}
-                         onPageChanged={this.onPageChanged}/>
+                         onPageChanged={this.onPageChanged}
+                         followingInProgress={this.props.followingInProgress}
+                         setFollowingInProgress={this.props.setFollowingInProgress}
+                />
+
         )
     }
 }

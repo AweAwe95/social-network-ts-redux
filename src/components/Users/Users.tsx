@@ -11,6 +11,8 @@ type UsersPageType = {
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     onPageChanged: (pageNumber: number) => void
+    followingInProgress: number[]
+    setFollowingInProgress: (isFetching: boolean, userId: number) => void
 }
 type UserType = {
     id: number,
@@ -54,18 +56,22 @@ export function Users(props: UsersPageType) {
                     </div>
                     <div>
                         {u.followed
-                            ? <button onClick={() => {
+                            ? <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                                props.setFollowingInProgress(true, u.id)
                                 usersAPI.unfollow(u.id).then(response => {
                                     if (response.resultCode === 0) {
                                         props.unfollow(u.id)
                                     }
+                                    props.setFollowingInProgress(false, u.id)
                                 })
                             }}>unfollow</button>
-                            : <button onClick={() => {
+                            : <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                                props.setFollowingInProgress(true, u.id)
                                 usersAPI.follow(u.id).then(response => {
                                     if (response.resultCode === 0) {
                                         props.follow(u.id)
                                     }
+                                    props.setFollowingInProgress(false, u.id)
                                 })
                             }
                             }>follow</button>}

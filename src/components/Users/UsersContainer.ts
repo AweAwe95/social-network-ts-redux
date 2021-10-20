@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import {
     followAC,
-    setCurrentPageAC,
+    setCurrentPageAC, setFollowingInProgressAC,
     setIsFetchingAC,
     setTotalCountAC,
     setUsersAC,
@@ -17,7 +17,8 @@ let mapStateToProps = (state: RootStateType) => {
         pageSize: state.usersPageData.pageSize,
         totalUsersCount: state.usersPageData.totalUsersCount,
         currentPage: state.usersPageData.currentPage,
-        isFetching: state.usersPageData.isFetching
+        isFetching: state.usersPageData.isFetching,
+        followingInProgress: state.usersPageData.followingInProgress
     }
 }
 
@@ -52,6 +53,7 @@ export const UsersContainer = connect(mapStateToProps,
         setUsers: setUsersAC,
         setCurrentPage: setCurrentPageAC,
         setTotalUsersCount: setTotalCountAC,
-        setIsFetching: setIsFetchingAC
+        setIsFetching: setIsFetchingAC,
+        setFollowingInProgress: setFollowingInProgressAC
     }
 )(UsersAPIComponent)

@@ -16,16 +16,25 @@ export type UsersPageType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: number[]
 }
 let initialState: UsersPageType = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: []
 }
 
-type UsersAT = FollowAT | UnfollowAT | SetUsersAT | SetCurrentPageAT | SetTotalCountAT | SetIsFetchingAT
+type UsersAT =
+    FollowAT
+    | UnfollowAT
+    | SetUsersAT
+    | SetCurrentPageAT
+    | SetTotalCountAT
+    | SetIsFetchingAT
+    | SetFollowingInProgressAT
 type FollowAT = {
     type: 'FOLLOW'
     userId: number
@@ -49,6 +58,11 @@ type SetTotalCountAT = {
 type SetIsFetchingAT = {
     type: 'SET-IS-FETCHING'
     isFetching: boolean
+}
+type SetFollowingInProgressAT = {
+    type: 'SET-FOLLOWING-IN-PROGRESS'
+    isFetching: boolean
+    userId: number
 }
 
 
@@ -88,6 +102,12 @@ export const usersReducer = (state: UsersPageType = initialState, action: UsersA
             return {...state, totalUsersCount: action.totalCount}
         case "SET-IS-FETCHING":
             return {...state, isFetching: action.isFetching}
+        case "SET-FOLLOWING-IN-PROGRESS":
+            return {
+                ...state, followingInProgress: action.isFetching
+                    ? [...state.followingInProgress, action.userId]
+                    : state.followingInProgress.filter(id => id !== action.userId)
+            }
         default:
             return state
     }
@@ -118,5 +138,13 @@ export const setIsFetchingAC = (isFetching: boolean): SetIsFetchingAT => {
     return {
         type: 'SET-IS-FETCHING',
         isFetching
+    }
+}
+
+export const setFollowingInProgressAC = (isFetching: boolean, userId: number): SetFollowingInProgressAT => {
+    return {
+        type: 'SET-FOLLOWING-IN-PROGRESS',
+        isFetching,
+        userId
     }
 }
