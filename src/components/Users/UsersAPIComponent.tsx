@@ -1,12 +1,8 @@
 import {Users} from "./Users";
 import {UserType} from "../../redux/users-reducer";
 import React from "react";
-import axios from "axios";
+import {usersAPI} from "../../api/api";
 
-type UsersResponseType = {
-    items: UserType[]
-    totalCount: number
-}
 
 type UsersAPIComponentType = {
     users: UserType[]
@@ -26,22 +22,21 @@ export class UsersAPIComponent extends React.Component<UsersAPIComponentType> {
 
     componentDidMount() {
         this.props.setIsFetching(true)
-        axios.get<UsersResponseType>(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
-            .then(response => {
-                this.props.setIsFetching(false)
-                this.props.setUsers(response.data.items)
-                this.props.setTotalUsersCount(response.data.totalCount)
-            })
+
+        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(response => {
+            this.props.setIsFetching(false)
+            this.props.setUsers(response.items)
+            this.props.setTotalUsersCount(response.totalCount)
+        })
     }
 
     onPageChanged = (pageNumber: number) => {
         this.props.setIsFetching(true)
         this.props.setCurrentPage(pageNumber)
-        axios.get<UsersResponseType>(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`)
-            .then(response => {
-                this.props.setIsFetching(false)
-                this.props.setUsers(response.data.items)
-            })
+        usersAPI.getUsers(pageNumber, this.props.pageSize).then(response => {
+            this.props.setIsFetching(false)
+            this.props.setUsers(response.items)
+        })
     }
 
     render() {
