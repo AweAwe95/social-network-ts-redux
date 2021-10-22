@@ -175,7 +175,6 @@ export const unfollowUserThunkCreator = (userId: number) => {
         })
     }
 }
-
 export const followUserThunkCreator = (userId: number) => {
     return (dispatch: DispatchType) => {
         dispatch(setFollowingInProgressAC(true, userId))

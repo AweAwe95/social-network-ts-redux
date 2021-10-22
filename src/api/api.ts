@@ -1,5 +1,6 @@
 import axios from "axios";
 import {UserType} from "../redux/users-reducer";
+import {ProfileType} from "../redux/profile-reducer";
 
 type UsersResponseType = {
     items: UserType[]
@@ -32,6 +33,17 @@ export const usersAPI = {
             .then(response => {
                 return response.data
             })
+    },
+    authMe(){
+        return instance.get<any>('auth/me')
+            .then(response => {
+                return response.data
+            })
+    },
+    getProfile(userId: number){
+        return instance.get<ProfileType>(`profile/${userId}`)
+            .then(response => {
+                return response.data
+            })
     }
-
 }

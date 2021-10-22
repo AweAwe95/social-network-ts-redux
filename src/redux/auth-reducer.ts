@@ -1,3 +1,6 @@
+import {DispatchType} from "./redux-store";
+import {usersAPI} from "../api/api";
+
 export type AuthStateType = {
     id: number | null
     login: string | null
@@ -10,7 +13,6 @@ let initialState: AuthStateType = {
     email: null,
     isAuth: false
 }
-
 type AuthAT = SetAuthUserDataAT
 type SetAuthUserDataAT = {
     type: 'SET-USER-DATA'
@@ -39,5 +41,16 @@ export const setAuthUserDataAC = (id: number, login: string, email: string): Set
     return {
         type: 'SET-USER-DATA',
         data: {id, login, email}
+    }
+}
+
+export const authUserThunkCreator = () => {
+    return (dispatch: DispatchType) => {
+        usersAPI.authMe().then(response => {
+            if(response.resultCode === 0){
+                let {id, email, login} = response.data
+                dispatch(setAuthUserDataAC(id, email, login))
+            }
+        })
     }
 }

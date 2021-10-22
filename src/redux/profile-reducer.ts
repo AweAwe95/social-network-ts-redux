@@ -1,3 +1,6 @@
+import {DispatchType} from "./redux-store";
+import {usersAPI} from "../api/api";
+
 export type ProfilePageAT = AddPostAT | ChangeNewPostTextAT | SetUserProfileAT
 type AddPostAT = {
     type: "ADD-POST"
@@ -82,5 +85,14 @@ export const setUserProfileAC = (profile: ProfileType): SetUserProfileAT => {
     return {
         type: 'SET-USER-PROFILE',
         profile
+    }
+}
+
+export const getUserProfileThunkCreator = (userId: number) => {
+    return (dispatch: DispatchType) => {
+        usersAPI.getProfile(userId).then(response => {
+            dispatch(setUserProfileAC(response))
+        })
+
     }
 }
