@@ -1,3 +1,6 @@
+import {usersAPI} from "../api/api";
+import {DispatchType} from "./redux-store";
+
 export type UserType = {
     id: number,
     name: string,
@@ -140,7 +143,6 @@ export const setIsFetchingAC = (isFetching: boolean): SetIsFetchingAT => {
         isFetching
     }
 }
-
 export const setFollowingInProgressAC = (isFetching: boolean, userId: number): SetFollowingInProgressAT => {
     return {
         type: 'SET-FOLLOWING-IN-PROGRESS',
@@ -148,3 +150,42 @@ export const setFollowingInProgressAC = (isFetching: boolean, userId: number): S
         userId
     }
 }
+
+export const getUsersThunkCreator = (currentPage: number, pageSize: number) => {
+
+    return (dispatch: DispatchType) => {
+        dispatch(setIsFetchingAC(true))
+
+        usersAPI.getUsers(currentPage, pageSize).then(response => {
+            dispatch(setIsFetchingAC(false))
+            dispatch(setUsersAC(response.items))
+            dispatch(setTotalCountAC(response.totalCount))
+        })
+    }
+}
+export const unfollowUserThunkCreator = (userId: number) => {
+    return (dispatch: DispatchType) => {
+        dispatch(setFollowingInProgressAC(true, userId))
+
+        usersAPI.unfollow(userId).then(response => {
+            if (response.resultCode === 0) {
+                dispatch(unfollowAC(userId))
+            }
+            dispatch(setFollowingInProgressAC(false, userId))
+        })
+    }
+}
+
+export const followUserThunkCreator = (userId: number) => {
+    return (dispatch: DispatchType) => {
+        dispatch(setFollowingInProgressAC(true, userId))
+
+        usersAPI.follow(userId).then(response => {
+            if (response.resultCode === 0) {
+                dispatch(followAC(userId))
+            }
+            dispatch(setFollowingInProgressAC(false, userId))
+        })
+    }
+}
+

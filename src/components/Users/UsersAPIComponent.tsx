@@ -1,7 +1,6 @@
 import {Users} from "./Users";
 import {UserType} from "../../redux/users-reducer";
 import React from "react";
-import {usersAPI} from "../../api/api";
 
 
 type UsersAPIComponentType = {
@@ -11,34 +10,19 @@ type UsersAPIComponentType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: number[]
-    follow: (userId: number) => void
-    unfollow: (userId: number) => void
-    setUsers: (users: UserType[]) => void
-    setCurrentPage: (currentPage: number) => void
-    setTotalUsersCount: (totalCount: number) => void
-    setIsFetching: (isFetching: boolean) => void
-    setFollowingInProgress: (isFetching: boolean, userId: number) => void
+    getUsers: (currentPage: number, pageSize: number) => void
+    followUser: (userId: number) => void
+    unfollowUser: (userId: number) => void
 }
 
 export class UsersAPIComponent extends React.Component<UsersAPIComponentType> {
 
     componentDidMount() {
-        this.props.setIsFetching(true)
-
-        usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(response => {
-            this.props.setIsFetching(false)
-            this.props.setUsers(response.items)
-            this.props.setTotalUsersCount(response.totalCount)
-        })
+        this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
 
     onPageChanged = (pageNumber: number) => {
-        this.props.setIsFetching(true)
-        this.props.setCurrentPage(pageNumber)
-        usersAPI.getUsers(pageNumber, this.props.pageSize).then(response => {
-            this.props.setIsFetching(false)
-            this.props.setUsers(response.items)
-        })
+        this.props.getUsers(pageNumber, this.props.pageSize)
     }
 
     render() {
@@ -50,11 +34,10 @@ export class UsersAPIComponent extends React.Component<UsersAPIComponentType> {
                          pageSize={this.props.pageSize}
                          totalUsersCount={this.props.totalUsersCount}
                          currentPage={this.props.currentPage}
-                         follow={this.props.follow}
-                         unfollow={this.props.unfollow}
                          onPageChanged={this.onPageChanged}
                          followingInProgress={this.props.followingInProgress}
-                         setFollowingInProgress={this.props.setFollowingInProgress}
+                         followUser={this.props.followUser}
+                         unfollowUser={this.props.unfollowUser}
                 />
 
         )
