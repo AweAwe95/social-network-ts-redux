@@ -7,6 +7,7 @@ export type DialogsPropsType = MapDispatchToPropsType & MapStateToPropsType
 
 type MapStateToPropsType = {
     dialogsPageData: DialogsPageDataType
+    isAuth: boolean
 }
 type MapDispatchToPropsType = {
     addMessage: () => void
@@ -15,7 +16,8 @@ type MapDispatchToPropsType = {
 
 let mapStateToProps = (state: RootStateType): MapStateToPropsType => {
     return {
-        dialogsPageData: state.dialogsPageData
+        dialogsPageData: state.dialogsPageData,
+        isAuth: state.auth.isAuth
     }
 }
 let mapDispatchToProps = (dispatch: DispatchType) => {
