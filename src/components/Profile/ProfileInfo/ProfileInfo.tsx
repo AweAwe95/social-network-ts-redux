@@ -1,5 +1,6 @@
 import p from "../Profile.module.css";
 import {ProfileType} from "../../../redux/profile-reducer";
+import { ProfileStatus } from "./ProfileStatus/ProfileStatus";
 
 type ProfileInfoPropsType = {
     profile: null | ProfileType
@@ -14,7 +15,7 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
             </div>
             <div>
                 <img src={props.profile?.photos.small} alt=""/>
-                Avatar + description
+                <ProfileStatus status={'Hello my friends'}/>
             </div>
         </>
     )
