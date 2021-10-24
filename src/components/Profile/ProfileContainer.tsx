@@ -1,17 +1,18 @@
 import React from "react"
 import {connect} from "react-redux"
-import {Redirect, withRouter} from "react-router-dom"
+import {withRouter} from "react-router-dom"
 import {RootStateType} from "../../redux/redux-store"
 import {Profile} from "./Profile"
 import {getUserProfileThunkCreator, ProfileType} from "../../redux/profile-reducer";
 import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
+import {compose} from "redux";
 
 type MapStateToPropsType = {
     profile: ProfileType | null
 }
 
 
-export class ProfileAPIComponent extends React.Component<any> {
+class ProfileAPIComponent extends React.Component<any> {
 
     componentDidMount() {
         let userId = this.props.match.params.userId
@@ -28,12 +29,14 @@ export class ProfileAPIComponent extends React.Component<any> {
     }
 }
 
-let AuthRedirectComponent = WithAuthRedirect(ProfileAPIComponent)
 
 const mapStateToProps = (state: RootStateType): MapStateToPropsType => {
     return {
         profile: state.postsPageData.profile,
     }
 }
-const WithUrlDataProfileAPIComponent = withRouter(AuthRedirectComponent)
-export const ProfileContainer = connect(mapStateToProps, {getUserProfile: getUserProfileThunkCreator})(WithUrlDataProfileAPIComponent)
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {getUserProfile: getUserProfileThunkCreator}),
+    withRouter,
+    WithAuthRedirect
+)(ProfileAPIComponent)

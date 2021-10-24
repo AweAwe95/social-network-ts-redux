@@ -1,6 +1,5 @@
 import {Redirect} from "react-router-dom";
 import React, {ComponentType} from "react";
-import {ProfileAPIComponent} from "../components/Profile/ProfileContainer";
 import {connect} from "react-redux";
 import {RootStateType} from "../redux/redux-store";
 
