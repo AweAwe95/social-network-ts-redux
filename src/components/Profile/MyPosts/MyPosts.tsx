@@ -1,9 +1,9 @@
 import m from "./MyPosts.module.css"
 import {Post} from "./Post/Post";
-import {PostsPageDataType} from "../../../redux/profile-reducer";
+import {ProfileInitialStateType} from "../../../redux/profile-reducer";
 
 type MyPostsPropsType = {
-    postsPageData: PostsPageDataType
+    postsPageData: ProfileInitialStateType
     addPost: () => void
     changeNewPostText: (newPost: string) => void
 }

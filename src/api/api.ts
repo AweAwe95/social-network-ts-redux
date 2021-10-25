@@ -1,6 +1,5 @@
 import axios from "axios";
 import {UserType} from "../redux/users-reducer";
-import {ProfileType} from "../redux/profile-reducer";
 
 type UsersResponseType = {
     items: UserType[]
@@ -33,17 +32,26 @@ export const usersAPI = {
             .then(response => {
                 return response.data
             })
-    },
+    }
+}
+
+export const authAPI = {
     authMe(){
         return instance.get<any>('auth/me')
             .then(response => {
                 return response.data
             })
     },
+}
+
+export const profileAPI = {
     getProfile(userId: number){
-        return instance.get<ProfileType>(`profile/${userId}`)
-            .then(response => {
-                return response.data
-            })
+        return instance.get<any>(`profile/${userId}`)
+    },
+    getStatus(userId: number){
+        return instance.get<any>(`profile/status/${userId}`)
+    },
+    updateStatus(status: string){
+        return instance.put<any>('profile/status', {status})
     }
 }

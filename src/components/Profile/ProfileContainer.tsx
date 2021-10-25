@@ -3,28 +3,37 @@ import {connect} from "react-redux"
 import {withRouter} from "react-router-dom"
 import {RootStateType} from "../../redux/redux-store"
 import {Profile} from "./Profile"
-import {getUserProfileThunkCreator, ProfileType} from "../../redux/profile-reducer";
+import {
+    getUserProfileThunkCreator,
+    getUserStatusThunkCreator, ProfileServerType,
+    updateUserStatusThunkCreator
+} from "../../redux/profile-reducer";
 import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
 
 type MapStateToPropsType = {
-    profile: ProfileType | null
+    profile: null | ProfileServerType
+    status: string
 }
 
 
-class ProfileAPIComponent extends React.Component<any> {
+class ProfileContainer extends React.Component<any> {
 
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {
-            userId = 2
+            userId = 17910
         }
         this.props.getUserProfile(userId)
+        this.props.getUserStatus(userId)
     }
 
     render() {
         return (
-            <Profile {...this.props} profile={this.props.profile}/>
+            <Profile {...this.props}
+                     profile={this.props.profile}
+                     status={this.props.status}
+                     updateUserStatus={this.props.updateUserStatus}/>
         )
     }
 }
@@ -33,10 +42,16 @@ class ProfileAPIComponent extends React.Component<any> {
 const mapStateToProps = (state: RootStateType): MapStateToPropsType => {
     return {
         profile: state.postsPageData.profile,
+        status: state.postsPageData.status,
     }
 }
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfile: getUserProfileThunkCreator}),
+    connect(mapStateToProps,
+        {
+            getUserProfile: getUserProfileThunkCreator,
+            getUserStatus: getUserStatusThunkCreator,
+            updateUserStatus: updateUserStatusThunkCreator
+        }),
     withRouter,
     WithAuthRedirect
-)(ProfileAPIComponent)
+)(ProfileContainer)

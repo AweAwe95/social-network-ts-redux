@@ -1,9 +1,11 @@
 import p from "../Profile.module.css";
-import {ProfileType} from "../../../redux/profile-reducer";
 import { ProfileStatus } from "./ProfileStatus/ProfileStatus";
+import {ProfileServerType} from "../../../redux/profile-reducer";
 
 type ProfileInfoPropsType = {
-    profile: null | ProfileType
+    profile: null | ProfileServerType
+    status: string
+    updateUserStatus: (status: string) => void
 }
 
 export function ProfileInfo(props: ProfileInfoPropsType) {
@@ -14,8 +16,8 @@ export function ProfileInfo(props: ProfileInfoPropsType) {
                      className={p.profilePageImg} alt=""/>
             </div>
             <div>
-                <img src={props.profile?.photos.small} alt=""/>
-                <ProfileStatus status={'Hello my friends'}/>
+                <img src={props.profile?.photos.small ? props.profile.photos.small: ''} alt=""/>
+                <ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/>
             </div>
         </>
     )
