@@ -1,16 +1,12 @@
-export type DialogsPageAT = AddMessageAT | ChangeNewMessageTextAT
+export type DialogsPageAT = AddMessageAT
 type AddMessageAT = {
     type: "ADD-MESSAGE"
-}
-type ChangeNewMessageTextAT = {
-    type: 'CHANGE-NEW-MESSAGE-TEXT',
-    newMessageText: string
+    message: string
 }
 
 export type DialogsPageDataType = {
     dialogsData: DialogType[]
     messagesData: MessageType[]
-    newMessageText: string
 }
 export type DialogType = {
     id: number
@@ -34,29 +30,21 @@ let initState: DialogsPageDataType = {
         {id: 2, message: 'How are you'},
         {id: 3, message: 'Really'},
         {id: 4, message: 'Bye'},
-    ],
-    newMessageText: ""
+    ]
 }
 
 export const dialogsReducer = (state: DialogsPageDataType = initState, action: DialogsPageAT): DialogsPageDataType => {
     switch (action.type) {
         case "ADD-MESSAGE":
-            return {...state, messagesData: [...state.messagesData, { id: 4, message: state.newMessageText,} ]}
-        case 'CHANGE-NEW-MESSAGE-TEXT':
-            return {...state, newMessageText: action.newMessageText}
+            return {...state, messagesData: [...state.messagesData, { id: 4, message: action.message,} ]}
         default:
             return state
     }
 }
 
-export const addMessageAC = (): AddMessageAT => {
+export const addMessageAC = (message: string): AddMessageAT => {
     return {
-        type: "ADD-MESSAGE"
-    }
-}
-export const changeNewMessageTextAC = (newMessageText: string): ChangeNewMessageTextAT => {
-    return {
-        type: 'CHANGE-NEW-MESSAGE-TEXT',
-        newMessageText
+        type: "ADD-MESSAGE",
+        message
     }
 }

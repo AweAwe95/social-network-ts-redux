@@ -7,9 +7,9 @@ import {Music} from './components/Music/Music';
 import {Settings} from './components/Settings/Settings';
 import { UsersContainer } from './components/Users/UsersContainer';
 import HeaderContainer from "./components/Header/HeaderContainer";
-import {Login} from "./components/Login/Login";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
+import { Login } from './components/Forms/Login';
 
 function App() {
     return (

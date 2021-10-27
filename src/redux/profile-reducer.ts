@@ -1,13 +1,10 @@
 import {DispatchType} from "./redux-store";
 import {profileAPI} from "../api/api";
 
-export type ProfilePageAT = AddPostAT | ChangeNewPostTextAT | SetUserProfileAT | SetUserStatusAT
+export type ProfilePageAT = AddPostAT | SetUserProfileAT | SetUserStatusAT
 type AddPostAT = {
     type: "ADD-POST"
-}
-type ChangeNewPostTextAT = {
-    type: 'CHANGE-NEW-POST-TEXT',
-    newPostText: string
+    post: string
 }
 type SetUserProfileAT = {
     type: 'SET-USER-PROFILE'
@@ -47,7 +44,6 @@ let initState = {
         {id: 2, post: 'Bye', likeCounter: 7},
         {id: 3, post: 'Hi', likeCounter: 10},
     ],
-    newPostText: "",
     profile: null as null | ProfileServerType,
     status: '',
 }
@@ -55,9 +51,7 @@ let initState = {
 export const profileReducer = (state: ProfileInitialStateType = initState, action: ProfilePageAT): ProfileInitialStateType => {
     switch (action.type) {
         case "ADD-POST":
-            return {...state, postsData: [...state.postsData, {id: 4, post: state.newPostText, likeCounter: 0}]}
-        case 'CHANGE-NEW-POST-TEXT':
-            return {...state, newPostText: action.newPostText}
+            return {...state, postsData: [...state.postsData, {id: 4, post: action.post, likeCounter: 0}]}
         case 'SET-USER-PROFILE':
             return {...state, profile: action.profile}
         case 'SET-USER-STATUS':
@@ -67,15 +61,10 @@ export const profileReducer = (state: ProfileInitialStateType = initState, actio
     }
 }
 
-export const addPostAC = (): AddPostAT => {
+export const addPostAC = (post: string): AddPostAT => {
     return {
-        type: "ADD-POST"
-    }
-}
-export const changeNewPostTextAC = (newPostText: string): ChangeNewPostTextAT => {
-    return {
-        type: 'CHANGE-NEW-POST-TEXT',
-        newPostText
+        type: "ADD-POST",
+        post
     }
 }
 export const setUserProfileAC = (profile: ProfileServerType): SetUserProfileAT => {
